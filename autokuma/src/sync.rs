@@ -161,6 +161,7 @@ impl Sync {
                             .filter(|(key, _)| {
                                 key.starts_with(&format!("{}.", self.config.docker.label_prefix))
                             })
+                            .map(|(key, value)| (key.replace(&self.config.docker.label_prefix, &format!("{}.{}.docker", self.config.docker.label_prefix, &container.names.as_ref().and_then(|names| names.first().cloned()).unwrap())), value))
                             .map(|(key, value)| (key.to_owned(), value.to_owned()))
                             .collect::<Vec<_>>()
                     },
